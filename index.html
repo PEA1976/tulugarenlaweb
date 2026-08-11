@@ -102,16 +102,20 @@ const CONFIG = {
 
   @media (max-width:860px){
     nav ul{
-      position:fixed; inset:60px 0 auto 0; background:var(--paper);
+      position:absolute; top:100%; left:0; right:0;
+      background:var(--paper); background:rgba(242,240,230,0.98);
+      backdrop-filter:blur(6px);
       flex-direction:column; padding:18px 28px; gap:16px;
       border-bottom:1px solid var(--line);
-      transform:translateY(-140%); transition:transform .25s ease;
+      box-shadow:0 12px 20px rgba(25,27,34,0.08);
+      transform:translateY(-10px); opacity:0; pointer-events:none;
+      transition:transform .2s ease, opacity .2s ease;
+      z-index:40;
     }
-    nav ul.open{transform:translateY(0);}
+    nav ul.open{transform:translateY(0); opacity:1; pointer-events:auto;}
     .burger{display:block;}
     .nav-cta{display:none;}
   }
-
   /* ---------- HERO ---------- */
   .hero{padding:70px 0 60px; border-bottom:1px solid var(--line);}
   .hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:54px; align-items:center;}
