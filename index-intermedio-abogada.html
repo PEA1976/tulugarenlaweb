@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nombre Profesional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   PANEL DE CONFIGURACIÓN — editá solo esto y listo
+   ============================================================ */
+</style>
+<script>
+const CONFIG = {
+  nombre: "Dra. Marina Suárez",
+  titulo: "Abogada — Derecho Civil y Comercial",
+  eslogan: "Asesoramiento legal claro, prolijo y a tiempo.",
+  sobreMi: "Más de 10 años acompañando a personas y empresas en sus procesos legales. Trabajo con transparencia, plazos claros y comunicación directa en cada etapa.",
+  servicios: [
+    { titulo: "Consultas y asesoramiento", detalle: "Primera orientación sobre tu situación legal, sin vueltas." },
+    { titulo: "Contratos", detalle: "Redacción y revisión de contratos civiles y comerciales." },
+    { titulo: "Sucesiones", detalle: "Acompañamiento completo en trámites sucesorios." },
+    { titulo: "Representación legal", detalle: "Gestión de causas y representación ante la justicia." }
+  ],
+  fotos: [
+    "https://loremflickr.com/500/600/lawbooks,library",
+    "https://loremflickr.com/500/600/scalesofjustice,courthouse"
+  ],
+  whatsapp: "5491100000000",       // sin +, sin espacios, con código de país
+  mensajeWhatsapp: "Hola, quisiera hacer una consulta.",
+  email: "contacto@ejemplo.com",
+  ubicacion: "Buenos Aires, Argentina"
+};
+</script>
+<style>
+  :root{
+    --ink:#16213E;
+    --cream:#F7F5F0;
+    --gold:#B08D57;
+    --charcoal:#2B2B2B;
+    --line:#D8D3C8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+  }
+  h1,h2,h3{font-family:'Cormorant Garamond',serif; font-weight:600; color:var(--ink);}
+  .wrap{max-width:920px; margin:0 auto; padding:0 28px;}
+
+  header{
+    padding:28px 0;
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{display:flex; justify-content:space-between; align-items:center;}
+  .brand{font-family:'Cormorant Garamond',serif; font-size:1.3rem; letter-spacing:0.03em; color:var(--ink);}
+  nav a{
+    color:var(--charcoal); text-decoration:none; font-size:0.85rem;
+    letter-spacing:0.05em; text-transform:uppercase; margin-left:28px;
+  }
+  nav a:hover{color:var(--gold);}
+
+  .hero{padding:100px 0 80px; text-align:center;}
+  .hero .eyebrow{
+    font-size:0.8rem; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:18px;
+  }
+  .hero h1{font-size:3.2rem; margin-bottom:14px;}
+  .hero .titulo{font-size:1.15rem; color:#555; margin-bottom:22px;}
+  .hero .rule{width:60px; height:1px; background:var(--gold); margin:26px auto;}
+  .hero .eslogan{max-width:480px; margin:0 auto; font-size:1.05rem; color:#444;}
+
+  section{padding:70px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .section-label{
+    font-size:0.75rem; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:10px;
+  }
+  section h2{font-size:2rem; margin-bottom:28px;}
+
+  .sobre-mi{max-width:640px;}
+  .sobre-mi p{font-size:1.05rem; color:#3a3a3a;}
+
+  .fotos{display:flex; gap:20px; margin-top:34px;}
+  .fotos img{width:100%; height:280px; object-fit:cover; filter:grayscale(15%);}
+
+  .servicios-list{margin-top:10px;}
+  .servicio{
+    display:flex; gap:24px; padding:26px 0;
+    border-top:1px solid var(--line);
+  }
+  .servicio:last-child{border-bottom:1px solid var(--line);}
+  .servicio .num{font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--gold); min-width:56px;}
+  .servicio h3{font-size:1.25rem; margin-bottom:6px;}
+  .servicio p{color:#555; font-size:0.97rem;}
+
+  .contacto{text-align:center;}
+  .contacto p.lead{max-width:460px; margin:0 auto 34px; color:#444;}
+  .botones{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .btn{
+    display:inline-block; padding:14px 30px; text-decoration:none;
+    font-size:0.9rem; letter-spacing:0.04em; border:1px solid var(--ink);
+    color:var(--ink); transition:all .2s;
+  }
+  .btn:hover{background:var(--ink); color:var(--cream);}
+  .btn.solid{background:var(--ink); color:var(--cream);}
+  .btn.solid:hover{background:var(--gold); border-color:var(--gold);}
+
+  footer{padding:34px 0; text-align:center; font-size:0.82rem; color:#888;}
+
+  @media(max-width:640px){
+    .hero h1{font-size:2.2rem;}
+    .fotos{flex-direction:column;}
+    nav a{margin-left:16px; font-size:0.75rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand" id="brand"></div>
+    <nav>
+      <a href="#sobre">Sobre mí</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow" id="ubic"></div>
+    <h1 id="nombreHero"></h1>
+    <div class="titulo" id="tituloHero"></div>
+    <div class="rule"></div>
+    <p class="eslogan" id="eslogan"></p>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="wrap">
+    <div class="section-label">Sobre mí</div>
+    <h2>Trayectoria y enfoque</h2>
+    <div class="sobre-mi">
+      <p id="sobreMiTexto"></p>
+    </div>
+    <div class="fotos" id="fotosWrap"></div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="wrap">
+    <div class="section-label">Servicios</div>
+    <h2>En qué puedo ayudarte</h2>
+    <div class="servicios-list" id="serviciosWrap"></div>
+  </div>
+</section>
+
+<section id="contacto" class="contacto">
+  <div class="wrap">
+    <div class="section-label">Contacto</div>
+    <h2>Conversemos</h2>
+    <p class="lead">Escribime por WhatsApp o por correo y te respondo a la brevedad.</p>
+    <div class="botones">
+      <a class="btn solid" id="btnWhatsapp" target="_blank">Escribir por WhatsApp</a>
+      <a class="btn" id="btnEmail">Enviar un correo</a>
+    </div>
+  </div>
+</section>
+
+<footer id="footer"></footer>
+
+<script>
+  document.getElementById('brand').textContent = CONFIG.nombre;
+  document.getElementById('ubic').textContent = CONFIG.ubicacion;
+  document.getElementById('nombreHero').textContent = CONFIG.nombre;
+  document.getElementById('tituloHero').textContent = CONFIG.titulo;
+  document.getElementById('eslogan').textContent = CONFIG.eslogan;
+  document.getElementById('sobreMiTexto').textContent = CONFIG.sobreMi;
+
+  const fotosWrap = document.getElementById('fotosWrap');
+  CONFIG.fotos.forEach(src => {
+    const img = document.createElement('img');
+    img.src = src;
+    fotosWrap.appendChild(img);
+  });
+
+  const serviciosWrap = document.getElementById('serviciosWrap');
+  CONFIG.servicios.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'servicio';
+    div.innerHTML = `
+      <div class="num">${String(i+1).padStart(2,'0')}</div>
+      <div>
+        <h3>${s.titulo}</h3>
+        <p>${s.detalle}</p>
+      </div>`;
+    serviciosWrap.appendChild(div);
+  });
+
+  /* ============================================================
+     MODO DEMO — true: los botones de WhatsApp/mail no llevan a
+     ningún lado (solo para mostrar el diseño). false: funcionan
+     normal, con los links reales de arriba.
+     ============================================================ */
+  const MODO_DEMO = true;
+
+  const waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(CONFIG.mensajeWhatsapp)}`;
+  const mailLink = `mailto:${CONFIG.email}`;
+
+  const botonesContacto = [
+    document.getElementById('btnWhatsapp'),
+    document.getElementById('btnEmail')
+  ];
+
+  if (MODO_DEMO) {
+    // No asignamos href real y bloqueamos la navegación al hacer click.
+    botonesContacto.forEach(btn => {
+      btn.href = '#';
+      btn.removeAttribute('target');
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        mostrarAvisoDemo();
+      });
+    });
+  } else {
+    document.getElementById('btnWhatsapp').href = waLink;
+    document.getElementById('btnEmail').href = mailLink;
+  }
+
+  function mostrarAvisoDemo() {
+    let aviso = document.getElementById('avisoDemo');
+    if (!aviso) {
+      aviso = document.createElement('div');
+      aviso.id = 'avisoDemo';
+      aviso.textContent = 'Esto es una web de muestra — los botones no llevan a ningún lado.';
+      aviso.style.cssText = `
+        position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
+        background:var(--ink); color:var(--cream); padding:12px 20px; border-radius:4px;
+        font-size:0.85rem; z-index:999; opacity:0; transition:opacity .2s;
+        box-shadow:0 8px 20px rgba(0,0,0,0.2); max-width:90%; text-align:center;
+        letter-spacing:0.02em;
+      `;
+      document.body.appendChild(aviso);
+    }
+    aviso.style.opacity = '1';
+    clearTimeout(aviso._timeout);
+    aviso._timeout = setTimeout(() => { aviso.style.opacity = '0'; }, 2200);
+  }
+
+  document.getElementById('footer').textContent = `© ${new Date().getFullYear()} ${CONFIG.nombre}`;
+</script>
+
+</body>
+</html>
