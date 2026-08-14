@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panadería El Trigal — Pan de horno todos los días</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --flour:#FAF6EC;
+    --flour-soft:#F1E9D8;
+    --cocoa:#2B1D12;
+    --cocoa-soft:#5A4632;
+    --crust:#C6822E;
+    --crust-dark:#9C6420;
+    --jam:#8B2635;
+    --butter:#F0C14B;
+    --radius:14px;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--flour);
+    color:var(--cocoa);
+    font-family:'Karla', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.02em;
+  }
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+  .visually-hidden{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:3px solid var(--crust-dark);
+    outline-offset:3px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,246,236,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--flour-soft);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    max-width:var(--maxw); margin:0 auto;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Fraunces', serif; font-weight:700; font-size:1.25rem;
+    text-decoration:none; color:var(--cocoa);
+  }
+  .brand-mark{
+    width:34px; height:34px; border-radius:50%;
+    background:conic-gradient(from 200deg, var(--crust), var(--butter), var(--crust));
+    flex-shrink:0;
+  }
+  nav ul{
+    list-style:none; display:flex; gap:30px;
+  }
+  nav a{
+    text-decoration:none; font-weight:600; font-size:0.95rem;
+    padding:6px 2px; border-bottom:2px solid transparent;
+    transition:border-color .2s ease;
+  }
+  nav a:hover{border-color:var(--crust);}
+  .nav-cta{
+    background:var(--cocoa); color:var(--flour);
+    padding:10px 20px; border-radius:999px;
+    font-weight:600; font-size:0.9rem; text-decoration:none;
+    white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--jam);}
+  .burger{display:none; background:none; border:none; cursor:pointer; padding:6px;}
+  .burger span{display:block; width:24px; height:2px; background:var(--cocoa); margin:5px 0;}
+
+  @media (max-width:800px){
+    nav ul{
+      position:fixed; inset:64px 0 auto 0; background:var(--flour);
+      flex-direction:column; padding:20px 28px; gap:18px;
+      border-bottom:1px solid var(--flour-soft);
+      transform:translateY(-140%); transition:transform .25s ease;
+    }
+    nav ul.open{transform:translateY(0);}
+    .burger{display:block;}
+    .nav-cta{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:64px 0 40px;
+    border-bottom:1px solid var(--flour-soft);
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem;
+    color:var(--crust-dark); text-transform:uppercase; letter-spacing:0.12em;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:''; width:7px; height:7px; border-radius:50%; background:var(--crust);
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 5vw, 3.7rem);
+    max-width:12ch;
+  }
+  .hero h1 em{
+    font-style:italic; color:var(--jam);
+  }
+  .hero p.lead{
+    margin-top:20px; font-size:1.12rem; color:var(--cocoa-soft); max-width:46ch;
+  }
+  .hero-actions{
+    display:flex; gap:14px; margin-top:30px; flex-wrap:wrap;
+  }
+  .btn-primary, .btn-secondary{
+    padding:14px 26px; border-radius:999px; font-weight:700; text-decoration:none;
+    font-size:0.95rem; display:inline-block; border:2px solid transparent;
+  }
+  .btn-primary{background:var(--crust); color:var(--cocoa);}
+  .btn-primary:hover{background:var(--crust-dark); color:var(--flour);}
+  .btn-secondary{border-color:var(--cocoa); color:var(--cocoa);}
+  .btn-secondary:hover{background:var(--cocoa); color:var(--flour);}
+
+  /* hero visual: loaves illustration via CSS */
+  .hero-visual{
+    aspect-ratio:1/1; border-radius:28px;
+    background:
+      linear-gradient(180deg, rgba(43,29,18,0) 55%, rgba(43,29,18,0.75) 100%),
+      url('https://images.unsplash.com/photo-1775637659246-a508a5baa4eb?fm=jpg&q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+    position:relative; overflow:hidden;
+  }
+  .hero-visual .tag{
+    position:absolute; bottom:22px; left:22px; right:22px;
+    background:rgba(250,246,236,0.92); border-radius:12px; padding:16px 18px;
+    font-family:'Fraunces', serif; font-weight:600; color:var(--cocoa);
+  }
+  .hero-visual .tag span{
+    display:block; font-family:'JetBrains Mono', monospace; font-weight:500;
+    font-size:0.78rem; color:var(--crust-dark); margin-top:4px; letter-spacing:0.04em;
+  }
+
+  @media (max-width:800px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{max-width:420px; margin:0 auto;}
+  }
+
+  /* ---------- RELOJ DE HORNEADO (signature) ---------- */
+  .horno{
+    padding:76px 0;
+    background:var(--cocoa); color:var(--flour);
+  }
+  .horno .section-head{max-width:56ch; margin-bottom:44px;}
+  .horno .eyebrow{color:var(--butter);}
+  .horno h2{font-size:clamp(1.8rem, 3.4vw, 2.5rem); color:var(--flour);}
+  .horno p.lead{color:#D9CCB8; margin-top:14px; font-size:1.05rem;}
+
+  .clock-rail{
+    display:grid; grid-template-columns:repeat(5, 1fr); gap:2px;
+    background:rgba(250,246,236,0.14); border-radius:16px; overflow:hidden;
+  }
+  .clock-slot{
+    background:var(--cocoa); padding:26px 18px;
+    display:flex; flex-direction:column; gap:10px;
+    border-top:3px solid transparent;
+    transition:background .2s ease;
+  }
+  .clock-slot.active{
+    border-top-color:var(--crust);
+    background:#3A2A1A;
+  }
+  .clock-slot .time{
+    font-family:'JetBrains Mono', monospace; font-size:0.85rem; color:var(--butter);
+  }
+  .clock-slot .item{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.12rem;
+  }
+  .clock-slot .status{
+    font-size:0.8rem; color:#B7A98F;
+  }
+  .clock-slot.active .status{color:var(--butter); font-weight:700;}
+
+  @media (max-width:900px){
+    .clock-rail{grid-template-columns:repeat(2, 1fr);}
+  }
+  @media (max-width:520px){
+    .clock-rail{grid-template-columns:1fr;}
+  }
+
+  /* ---------- PRODUCTOS ---------- */
+  .productos{padding:80px 0;}
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:24px; flex-wrap:wrap; margin-bottom:42px;
+  }
+  .section-head h2{font-size:clamp(1.8rem, 3.4vw, 2.5rem); max-width:16ch;}
+  .section-head p{color:var(--cocoa-soft); max-width:40ch;}
+
+  .card-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;
+  }
+  .card{
+    background:var(--flour-soft); border-radius:var(--radius);
+    padding:26px; display:flex; flex-direction:column; gap:10px;
+    border:1px solid transparent;
+    transition:transform .2s ease, border-color .2s ease;
+  }
+  .card:hover{transform:translateY(-4px); border-color:var(--crust);}
+  .card .swatch{
+    width:100%; aspect-ratio:16/10; border-radius:10px; margin-bottom:6px;
+  }
+  .swatch{background-size:cover; background-position:center;}
+  .swatch.s1{background-image:url('https://images.unsplash.com/photo-1723475762965-7e4fe36ec085?fm=jpg&q=80&w=800&auto=format&fit=crop');}
+  .swatch.s2{background-image:url('https://images.unsplash.com/photo-1623334044303-241021148842?fm=jpg&q=80&w=800&auto=format&fit=crop');}
+  .swatch.s3{background-image:url('https://images.unsplash.com/photo-1767065887015-8f368d4c689d?fm=jpg&q=80&w=800&auto=format&fit=crop');}
+  .card h3{font-size:1.2rem;}
+  .card p{color:var(--cocoa-soft); font-size:0.94rem;}
+  .card .price{
+    margin-top:auto; padding-top:12px;
+    font-family:'JetBrains Mono', monospace; font-weight:500;
+    color:var(--jam); font-size:0.95rem;
+  }
+  @media (max-width:860px){.card-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:560px){.card-grid{grid-template-columns:1fr;}}
+
+  /* ---------- HISTORIA ---------- */
+  .historia{
+    padding:80px 0; background:var(--flour-soft);
+  }
+  .historia-grid{
+    display:grid; grid-template-columns:0.8fr 1.2fr; gap:56px; align-items:center;
+  }
+  .historia-visual{
+    aspect-ratio:4/5; border-radius:20px;
+    background:
+      linear-gradient(0deg, rgba(43,29,18,0.55), rgba(43,29,18,0.05)),
+      url('https://images.unsplash.com/photo-1606152196365-d1ce5ea838b5?fm=jpg&q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
+  }
+  .historia h2{font-size:clamp(1.8rem,3.2vw,2.3rem); margin-bottom:16px;}
+  .historia p{color:var(--cocoa-soft); margin-bottom:14px; max-width:56ch;}
+  .stat-row{display:flex; gap:36px; margin-top:26px; flex-wrap:wrap;}
+  .stat b{
+    display:block; font-family:'Fraunces', serif; font-size:1.9rem; color:var(--jam);
+  }
+  .stat span{font-size:0.85rem; color:var(--cocoa-soft);}
+  @media (max-width:800px){.historia-grid{grid-template-columns:1fr;}}
+
+  /* ---------- UBICACION / CONTACTO ---------- */
+  .contacto{padding:80px 0;}
+  .contacto-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:40px;
+  }
+  .info-card{
+    background:var(--cocoa); color:var(--flour); border-radius:20px; padding:36px;
+  }
+  .info-card h2{color:var(--flour); font-size:1.7rem; margin-bottom:18px;}
+  .info-row{
+    display:flex; gap:14px; padding:14px 0; border-top:1px solid rgba(250,246,236,0.12);
+  }
+  .info-row:first-of-type{border-top:none;}
+  .info-row .label{
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem; color:var(--butter);
+    width:110px; flex-shrink:0; padding-top:2px;
+  }
+  .map-visual{
+    border-radius:20px; overflow:hidden; position:relative;
+    background:
+      linear-gradient(var(--flour-soft) 1px, transparent 1px) 0 0/28px 28px,
+      linear-gradient(90deg, var(--flour-soft) 1px, transparent 1px) 0 0/28px 28px,
+      var(--flour);
+    border:1px solid var(--flour-soft);
+    min-height:280px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .map-pin{
+    text-align:center;
+  }
+  .map-pin .dot{
+    width:16px; height:16px; border-radius:50%; background:var(--jam);
+    margin:0 auto 10px; box-shadow:0 0 0 8px rgba(139,38,53,0.15);
+  }
+  .map-pin span{font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--cocoa-soft);}
+
+  @media (max-width:800px){.contacto-grid{grid-template-columns:1fr;}}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--cocoa); color:#B7A98F;
+    padding:36px 0; font-size:0.88rem;
+  }
+  .footer-row{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px;
+  }
+  footer a{color:var(--flour); text-decoration:none; font-weight:600;}
+  .footer-social{display:flex; gap:16px;}
+
+  section > .wrap > .eyebrow{display:block;}
+
+  /* ---------- AVISO DEMO ---------- */
+  #avisoDemo{
+    position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
+    background:var(--cocoa); color:var(--flour); padding:13px 24px; border-radius:999px;
+    font-family:'Karla', sans-serif; font-weight:700; font-size:0.88rem;
+    z-index:999; opacity:0; transition:opacity .2s;
+    box-shadow:0 10px 26px rgba(0,0,0,0.28); max-width:90%; text-align:center;
+    border:1px solid rgba(250,246,236,0.15);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Panadería El Trigal
+    </a>
+    <button class="burger" aria-label="Abrir menú" aria-expanded="false" id="burgerBtn">
+      <span></span><span></span><span></span>
+    </button>
+    <ul id="navList">
+      <li><a href="#horno">Recién salido</a></li>
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#historia">Nosotros</a></li>
+      <li><a href="#contacto">Ubicación</a></li>
+    </ul>
+    <a href="#contacto" class="nav-cta">Hacer pedido</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Horneado desde las 5 AM</span>
+        <h1>Pan de verdad,<br><em>todos los días.</em></h1>
+        <p class="lead">Masa madre fermentada 18 horas, harinas de molino local y hornos de piedra que no se apagan nunca. Así hacemos pan en El Trigal desde 1998.</p>
+        <div class="hero-actions">
+          <a href="#horno" class="btn-primary">Ver qué sale ahora</a>
+          <a href="#contacto" class="btn-secondary">Cómo llegar</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="tag">
+          Hoy horneamos 6 variedades
+          <span>ÚLTIMA HORNEADA · 19:00 HS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RELOJ DE HORNEADO -->
+  <section class="horno" id="horno">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Reloj de horneado</span>
+          <h2>Sabé exactamente cuándo sale cada cosa</h2>
+          <p class="lead">No vendemos pan de ayer. Esta es la tabla real de nuestros hornos, hora por hora.</p>
+        </div>
+      </div>
+      <div class="clock-rail">
+        <div class="clock-slot active">
+          <span class="time">07:00</span>
+          <span class="item">Medialunas</span>
+          <span class="status">● Saliendo ahora</span>
+        </div>
+        <div class="clock-slot">
+          <span class="time">09:30</span>
+          <span class="item">Baguettes</span>
+          <span class="status">En horno</span>
+        </div>
+        <div class="clock-slot">
+          <span class="time">12:00</span>
+          <span class="item">Pan de campo</span>
+          <span class="status">Próxima tanda</span>
+        </div>
+        <div class="clock-slot">
+          <span class="time">16:00</span>
+          <span class="item">Focaccia</span>
+          <span class="status">Próxima tanda</span>
+        </div>
+        <div class="clock-slot">
+          <span class="time">18:30</span>
+          <span class="item">Pan dulce de masa madre</span>
+          <span class="status">Última tanda</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTOS -->
+  <section class="productos" id="productos">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Nuestros clásicos</span>
+          <h2>Lo que más se lleva la gente</h2>
+        </div>
+        <p>Todo se hace en el local, sin conservantes ni mezclas industriales.</p>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="swatch s1"></div>
+          <h3>Pan de campo</h3>
+          <p>Masa madre, corteza gruesa y miga alveolada. La pieza de 800 g rinde toda la semana.</p>
+          <span class="price">$ 3.200 / pieza</span>
+        </div>
+        <div class="card">
+          <div class="swatch s2"></div>
+          <h3>Medialunas de manteca</h3>
+          <p>Hojaldradas, con almíbar liviano. Se hornean tres veces por día.</p>
+          <span class="price">$ 900 / unidad</span>
+        </div>
+        <div class="card">
+          <div class="swatch s3"></div>
+          <h3>Focaccia de romero</h3>
+          <p>Aceite de oliva local, sal en escamas y romero fresco del fondo del local.</p>
+          <span class="price">$ 4.100 / bandeja</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section class="historia" id="historia">
+    <div class="wrap historia-grid">
+      <div class="historia-visual" role="img" aria-label="Textura de harina y madera de nuestro obrador"></div>
+      <div>
+        <span class="eyebrow">Desde 1998</span>
+        <h2>Un obrador, tres generaciones</h2>
+        <p>Empezamos con un solo horno a leña y la receta de masa madre que todavía usamos hoy. La familia Ferrari abre todas las mañanas antes del amanecer para que el pan esté listo cuando el barrio se despierta.</p>
+        <p>Trabajamos con molinos harineros locales y no usamos aditivos: si algo no lleva harina, agua, sal y tiempo, no entra a nuestra masa.</p>
+        <div class="stat-row">
+          <div class="stat"><b>26</b><span>años de horno encendido</span></div>
+          <div class="stat"><b>18h</b><span>de fermentación</span></div>
+          <div class="stat"><b>12</b><span>variedades por semana</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto" id="contacto">
+    <div class="wrap contacto-grid">
+      <div class="info-card">
+        <h2>Visitanos</h2>
+        <div class="info-row">
+          <span class="label">DIRECCIÓN</span>
+          <span>Av. Rivadavia 2456, San Justo, Buenos Aires</span>
+        </div>
+        <div class="info-row">
+          <span class="label">HORARIOS</span>
+          <span>Lunes a sábado, 6:30 a 20:00 hs<br>Domingos, 7:00 a 13:00 hs</span>
+        </div>
+        <div class="info-row">
+          <span class="label">TELÉFONO</span>
+          <span><a href="tel:+541100000000" id="linkTel">+54 11 0000-0000</a></span>
+        </div>
+        <div class="info-row">
+          <span class="label">PEDIDOS</span>
+          <span><a href="https://wa.me/541100000000" target="_blank" rel="noopener" id="linkWhatsapp">Pedir por WhatsApp →</a></span>
+        </div>
+      </div>
+      <div class="map-visual" role="img" aria-label="Mapa de ubicación de la panadería">
+        <div class="map-pin">
+          <div class="dot"></div>
+          <span>AV. RIVADAVIA 2456</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© 2026 Panadería El Trigal. Hecho con harina, agua, sal y tiempo.</span>
+    <div class="footer-social">
+      <a href="#" rel="noopener">Instagram</a>
+      <a href="#" rel="noopener">Facebook</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const burgerBtn = document.getElementById('burgerBtn');
+  const navList = document.getElementById('navList');
+  burgerBtn.addEventListener('click', () => {
+    const isOpen = navList.classList.toggle('open');
+    burgerBtn.setAttribute('aria-expanded', isOpen);
+  });
+  navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navList.classList.remove('open');
+    burgerBtn.setAttribute('aria-expanded', 'false');
+  }));
+
+  /* ============================================================
+     MODO DEMO — true: los links de teléfono y WhatsApp no llevan
+     a ningún lado (solo para mostrar el diseño). false: funcionan
+     normal, con los links reales que ya están puestos arriba.
+     ============================================================ */
+  const MODO_DEMO = true;
+
+  if (MODO_DEMO) {
+    const linksContacto = [
+      document.getElementById('linkTel'),
+      document.getElementById('linkWhatsapp')
+    ];
+    linksContacto.forEach(link => {
+      link.removeAttribute('target');
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        mostrarAvisoDemo();
+      });
+    });
+  }
+
+  function mostrarAvisoDemo() {
+    let aviso = document.getElementById('avisoDemo');
+    if (!aviso) {
+      aviso = document.createElement('div');
+      aviso.id = 'avisoDemo';
+      aviso.textContent = 'Esto es una web de muestra — los links de contacto no llevan a ningún lado.';
+      document.body.appendChild(aviso);
+    }
+    aviso.style.opacity = '1';
+    clearTimeout(aviso._timeout);
+    aviso._timeout = setTimeout(() => { aviso.style.opacity = '0'; }, 2200);
+  }
+</script>
+
+</body>
+</html>
