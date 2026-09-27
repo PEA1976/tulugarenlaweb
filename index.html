@@ -129,10 +129,11 @@ const CONFIG = {
   .btn-primary, .btn-secondary{
     padding:14px 26px; border-radius:999px; font-weight:700; text-decoration:none;
     font-size:0.95rem; display:inline-flex; align-items:center; gap:8px; border:2px solid transparent;
+    cursor:pointer; font-family:inherit;
   }
   .btn-primary{background:var(--rust); color:#fff;}
   .btn-primary:hover{background:var(--rust-dark);}
-  .btn-secondary{border-color:var(--ink); color:var(--ink);}
+  .btn-secondary{border-color:var(--ink); color:var(--ink); background:transparent;}
   .btn-secondary:hover{background:var(--ink); color:var(--paper);}
   .hero-note{margin-top:16px; font-size:0.85rem; color:var(--ink-soft);}
 
@@ -312,6 +313,45 @@ const CONFIG = {
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
   }
   footer a{color:var(--plate); text-decoration:none; font-weight:700;}
+
+  /* ---------- MODAL DE CONTACTO POR MAIL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(25,27,34,0.55);
+    display:none; align-items:center; justify-content:center;
+    z-index:100; padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--paper); border-radius:18px; max-width:460px; width:100%;
+    padding:34px; position:relative; box-shadow:0 24px 60px rgba(0,0,0,0.3);
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px; background:none; border:none;
+    font-size:1.4rem; cursor:pointer; color:var(--ink-soft); line-height:1;
+    width:32px; height:32px; border-radius:50%;
+  }
+  .modal-close:hover{background:var(--paper-soft);}
+  .modal-box h3{font-size:1.4rem; text-transform:uppercase; margin-bottom:8px;}
+  .modal-box .modal-sub{color:var(--ink-soft); font-size:0.92rem; margin-bottom:22px;}
+  .modal-box label{
+    display:block; font-size:0.82rem; font-weight:700; margin-bottom:6px; margin-top:16px;
+  }
+  .modal-box label:first-of-type{margin-top:0;}
+  .modal-box input, .modal-box textarea{
+    width:100%; border:1.5px solid var(--line); border-radius:10px; padding:11px 13px;
+    font-family:'Inter',sans-serif; font-size:0.95rem; background:#fff; color:var(--ink);
+  }
+  .modal-box input:focus, .modal-box textarea:focus{outline:none; border-color:var(--plate);}
+  .modal-box textarea{resize:vertical; min-height:90px;}
+  .modal-box .btn-primary{
+    width:100%; justify-content:center; margin-top:22px; border:none;
+  }
+  .modal-box .btn-primary:disabled{opacity:0.6; cursor:not-allowed;}
+  .modal-msg{
+    margin-top:14px; font-size:0.88rem; padding:10px 12px; border-radius:8px; display:none;
+  }
+  .modal-msg.ok{display:block; background:#E4F1E6; color:#1E5B2A;}
+  .modal-msg.err{display:block; background:#FBE4DF; color:#9C3509;}
 </style>
 </head>
 <body>
@@ -509,7 +549,7 @@ const CONFIG = {
         </div>
         <div class="botones">
           <a href="#" id="btnWhatsappPrecio" class="btn-primary" target="_blank">💬 Escribir por WhatsApp</a>
-          <a href="#" id="btnEmailPrecio" class="btn-secondary">Enviar un mail</a>
+          <button type="button" id="btnEmailPrecio" class="btn-secondary">Enviar un mail</button>
         </div>
       </div>
     </div>
@@ -523,7 +563,7 @@ const CONFIG = {
         <p>Contame de qué se trata tu negocio y en un par de días tenés tu página lista para mostrar.</p>
         <div class="contacto-actions">
           <a href="#" id="btnWhatsappFinal" class="btn-primary" target="_blank">💬 Escribir por WhatsApp</a>
-          <a href="#" id="btnEmailFinal" class="btn-secondary">Enviar un mail</a>
+          <button type="button" id="btnEmailFinal" class="btn-secondary">Enviar un mail</button>
         </div>
       </div>
     </div>
@@ -537,6 +577,28 @@ const CONFIG = {
     <a href="#" id="footerWhatsapp" target="_blank">Escribir por WhatsApp</a>
   </div>
 </footer>
+
+<!-- MODAL DE CONTACTO POR MAIL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button type="button" class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+    <h3>Enviame un mail</h3>
+    <p class="modal-sub">Completá tus datos y te respondo directo a tu casilla.</p>
+    <form id="contactForm">
+      <label for="cf-nombre">Tu nombre</label>
+      <input type="text" id="cf-nombre" name="name" required>
+
+      <label for="cf-email">Tu email</label>
+      <input type="email" id="cf-email" name="email" required>
+
+      <label for="cf-mensaje">Mensaje</label>
+      <textarea id="cf-mensaje" name="message" required placeholder="Contame de tu negocio..."></textarea>
+
+      <button type="submit" class="btn-primary" id="cf-submit">Enviar mensaje</button>
+      <div class="modal-msg" id="cf-msg"></div>
+    </form>
+  </div>
+</div>
 
 <script>
   // Menú móvil
@@ -559,9 +621,6 @@ const CONFIG = {
   ['btnWhatsappPrecio','btnWhatsappFinal','footerWhatsapp'].forEach(id => {
     document.getElementById(id).href = waLink;
   });
-  ['btnEmailPrecio','btnEmailFinal'].forEach(id => {
-    document.getElementById(id).href = `mailto:${CONFIG.email}`;
-  });
 
   // Links de ejemplos y casos desde CONFIG
   document.querySelectorAll('#ejemplos .timbre')[0].href = CONFIG.ejemploFormal;
@@ -569,6 +628,64 @@ const CONFIG = {
   document.querySelectorAll('#ejemplos .timbre')[2].href = CONFIG.ejemploInformal;
   document.querySelectorAll('#casos .port-card')[0].href = CONFIG.casoPanaderia;
   document.querySelectorAll('#casos .port-card')[1].href = CONFIG.casoRestaurante;
+
+  // ---------- MODAL DE CONTACTO POR MAIL ----------
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalClose = document.getElementById('modalClose');
+  const contactForm = document.getElementById('contactForm');
+  const cfMsg = document.getElementById('cf-msg');
+  const cfSubmit = document.getElementById('cf-submit');
+
+  function openModal(){
+    modalOverlay.classList.add('open');
+    cfMsg.className = 'modal-msg';
+    cfMsg.textContent = '';
+  }
+  function closeModal(){
+    modalOverlay.classList.remove('open');
+  }
+
+  ['btnEmailPrecio','btnEmailFinal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', openModal);
+  });
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e) => {
+    if(e.target === modalOverlay) closeModal();
+  });
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    cfSubmit.disabled = true;
+    cfSubmit.textContent = 'Enviando...';
+    cfMsg.className = 'modal-msg';
+
+    const formData = new FormData(contactForm);
+    formData.append('_subject', 'Nueva consulta desde TuLugarEnLaWeb.com.ar');
+    formData.append('_captcha', 'false');
+    formData.append('_template', 'table');
+
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${CONFIG.email}`, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: formData
+      });
+      if(res.ok){
+        cfMsg.classList.add('ok');
+        cfMsg.textContent = '¡Listo! Tu mensaje fue enviado. Te voy a responder a la brevedad.';
+        contactForm.reset();
+        setTimeout(closeModal, 2500);
+      } else {
+        throw new Error('Error en el envío');
+      }
+    } catch(err){
+      cfMsg.classList.add('err');
+      cfMsg.textContent = 'No se pudo enviar. Probá de nuevo o escribime por WhatsApp.';
+    } finally {
+      cfSubmit.disabled = false;
+      cfSubmit.textContent = 'Enviar mensaje';
+    }
+  });
 </script>
 
 </body>
